@@ -2,83 +2,31 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>코인 대시보드 PRO</title>
+    <title>코인 정보 센터 PRO</title>
     <style>
         body { font-family: 'Malgun Gothic', sans-serif; background: #020617; color: #f8fafc; margin: 0; padding: 0; }
         .whale-banner { background: linear-gradient(90deg, #1e3a8a, #3b82f6); padding: 10px; text-align: center; font-weight: bold; font-size: 0.9rem; border-bottom: 2px solid #60a5fa; }
-        .container { padding: 20px; max-width: 800px; margin: auto; }
-        h1 { color: #38bdf8; display: flex; justify-content: space-between; align-items: center; }
         
-        /* 뉴스 카드 디자인 (버튼 삭제 후 깔끔하게) */
-        .box { background: #1e293b; padding: 18px; margin-bottom: 12px; border-radius: 10px; border-left: 5px solid #38bdf8; transition: 0.3s; }
-        .box:hover { background: #2d3748; }
-        .box a { color: #f1f5f9; font-weight: bold; text-decoration: none; font-size: 1.15rem; display: block; margin-bottom: 5px; }
-        .source { color: #94a3b8; font-size: 0.8rem; }
+        /* 레이아웃: 양옆 광고를 위한 3단 구성 */
+        .main-layout { display: flex; justify-content: center; max-width: 1400px; margin: 0 auto; padding: 20px; gap: 20px; }
+        .side-ads { width: 200px; min-height: 600px; background: #0f172a; border: 1px dashed #334155; display: flex; align-items: center; justify-content: center; color: #475569; font-size: 0.8rem; text-align: center; border-radius: 10px; }
+        .content-area { flex: 1; max-width: 800px; }
 
-        /* 구글 애드센스 광고 영역 스타일 */
-        .ads-container { 
-            background: #0f172a; 
-            border: 1px dashed #334155; 
-            margin: 20px 0; 
-            padding: 10px; 
-            text-align: center; 
-            min-height: 100px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            color: #475569;
-            font-size: 0.8rem;
-        }
+        h1 { color: #38bdf8; display: flex; justify-content: space-between; align-items: center; margin-top: 0; }
+        .box { background: #1e293b; padding: 18px; margin-bottom: 15px; border-radius: 10px; border-left: 6px solid #38bdf8; transition: 0.3s; }
+        .box:hover { background: #2d3748; transform: translateY(-2px); }
+        .box a { color: #f1f5f9; font-weight: bold; text-decoration: none; font-size: 1.15rem; display: block; margin-bottom: 8px; }
+        .source { color: #94a3b8; font-size: 0.85rem; background: #020617; padding: 2px 8px; border-radius: 4px; }
+
+        /* 모바일 대응 (화면이 작아지면 광고 숨김) */
+        @media (max-width: 1000px) { .side-ads { display: none; } }
     </style>
 </head>
 <body>
-    <div class="whale-banner">🚨 [고래 알람] 실시간 자금 흐름 분석 중...</div>
+    <div class="whale-banner">🚨 [고래 알람] 실시간 자금 흐름 및 글로벌 시장 뉴스 분석 중...</div>
     
-    <div class="container">
-        <h1>🚀 코인 정보 센터 <span id="clock" style="font-size: 0.9rem; color: #94a3b8;"></span></h1>
+    <div class="main-layout">
+        <div class="side-ads">구글 애드센스<br>왼쪽 사이드바</div>
 
-        <div class="ads-container">
-            (구글 애드센스 광고 영역 - 상단)
-        </div>
-
-        <div id="news-list">뉴스를 불러오고 있습니다...</div>
-
-        <div class="ads-container">
-            (구글 애드센스 광고 영역 - 하단)
-        </div>
-    </div>
-
-    <script>
-        async function loadData() {
-            const list = document.getElementById('news-list');
-            const clock = document.getElementById('clock');
-            const rssUrl = 'https://news.google.com/rss/search?q=비트코인+리플+속보&hl=ko&gl=KR&ceid=KR:ko';
-            const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
-
-            try {
-                const response = await fetch(apiUrl);
-                const data = await response.json();
-                clock.innerText = `업데이트: ${new Date().toLocaleTimeString()}`;
-
-                if (data.status === 'ok') {
-                    const sorted = data.items.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-                    list.innerHTML = '';
-                    sorted.forEach(item => {
-                        const div = document.createElement('div');
-                        div.className = 'box';
-                        div.innerHTML = `
-                            <a href="${item.link}" target="_blank">${item.title}</a>
-                            <span class="source">📅 ${new Date(item.pubDate).toLocaleString()}</span>
-                        `;
-                        list.appendChild(div);
-                    });
-                }
-            } catch (e) {
-                list.innerText = '데이터를 불러올 수 없습니다.';
-            }
-        }
-        loadData();
-        setInterval(loadData, 60000);
-    </script>
-</body>
-</html>
+        <div class="content-area">
+            <h1>🚀 글로벌 코인 뉴스 리포트 <span id="clock" style="font-size: 0.9rem; color: #94a3b
