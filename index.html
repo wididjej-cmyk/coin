@@ -5,24 +5,47 @@
     <title>코인 대시보드 PRO</title>
     <style>
         body { font-family: 'Malgun Gothic', sans-serif; background: #020617; color: #f8fafc; margin: 0; padding: 0; }
-        /* 고래 동향 배너 */
         .whale-banner { background: linear-gradient(90deg, #1e3a8a, #3b82f6); padding: 10px; text-align: center; font-weight: bold; font-size: 0.9rem; border-bottom: 2px solid #60a5fa; }
         .container { padding: 20px; max-width: 800px; margin: auto; }
         h1 { color: #38bdf8; display: flex; justify-content: space-between; align-items: center; }
-        .box { background: #1e293b; padding: 20px; margin-bottom: 15px; border-radius: 12px; border-left: 6px solid #38bdf8; position: relative; }
-        .box a { color: #f1f5f9; font-weight: bold; text-decoration: none; font-size: 1.2rem; display: block; margin-bottom: 8px; }
-        .source { color: #94a3b8; font-size: 0.85rem; }
-        /* 수익화 버튼 */
-        .trade-btn { position: absolute; right: 20px; bottom: 20px; background: #f59e0b; color: #000; padding: 8px 15px; border-radius: 6px; font-weight: bold; text-decoration: none; font-size: 0.8rem; }
-        .trade-btn:hover { background: #fbbf24; }
+        
+        /* 뉴스 카드 디자인 (버튼 삭제 후 깔끔하게) */
+        .box { background: #1e293b; padding: 18px; margin-bottom: 12px; border-radius: 10px; border-left: 5px solid #38bdf8; transition: 0.3s; }
+        .box:hover { background: #2d3748; }
+        .box a { color: #f1f5f9; font-weight: bold; text-decoration: none; font-size: 1.15rem; display: block; margin-bottom: 5px; }
+        .source { color: #94a3b8; font-size: 0.8rem; }
+
+        /* 구글 애드센스 광고 영역 스타일 */
+        .ads-container { 
+            background: #0f172a; 
+            border: 1px dashed #334155; 
+            margin: 20px 0; 
+            padding: 10px; 
+            text-align: center; 
+            min-height: 100px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            color: #475569;
+            font-size: 0.8rem;
+        }
     </style>
 </head>
 <body>
-    <div class="whale-banner">🚨 [고래 알람] 2,500 BTC가 익명 지갑에서 바이낸스로 입금되었습니다!</div>
+    <div class="whale-banner">🚨 [고래 알람] 실시간 자금 흐름 분석 중...</div>
     
     <div class="container">
-        <h1>🚀 코인 정보 센터 PRO <span id="clock" style="font-size: 1rem; color: #94a3b8;"></span></h1>
-        <div id="news-list">데이터를 분석 중입니다...</div>
+        <h1>🚀 코인 정보 센터 <span id="clock" style="font-size: 0.9rem; color: #94a3b8;"></span></h1>
+
+        <div class="ads-container">
+            (구글 애드센스 광고 영역 - 상단)
+        </div>
+
+        <div id="news-list">뉴스를 불러오고 있습니다...</div>
+
+        <div class="ads-container">
+            (구글 애드센스 광고 영역 - 하단)
+        </div>
     </div>
 
     <script>
@@ -35,7 +58,7 @@
             try {
                 const response = await fetch(apiUrl);
                 const data = await response.json();
-                clock.innerText = `마지막 업데이트: ${new Date().toLocaleTimeString()}`;
+                clock.innerText = `업데이트: ${new Date().toLocaleTimeString()}`;
 
                 if (data.status === 'ok') {
                     const sorted = data.items.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
@@ -46,7 +69,6 @@
                         div.innerHTML = `
                             <a href="${item.link}" target="_blank">${item.title}</a>
                             <span class="source">📅 ${new Date(item.pubDate).toLocaleString()}</span>
-                            <a href="YOUR_REFERRAL_LINK" class="trade-btn" target="_blank">지금 거래하기 →</a>
                         `;
                         list.appendChild(div);
                     });
