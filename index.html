@@ -2,91 +2,119 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>글로벌 코인 리포트 24h</title>
+    <title>글로벌 코인 타임라인</title>
     <style>
-        body { font-family: 'Malgun Gothic', sans-serif; background: #020617; color: #f8fafc; margin: 0; padding: 0; overflow-x: hidden; }
-        .whale-banner { background: linear-gradient(90deg, #1e3a8a, #3b82f6); padding: 10px; text-align: center; font-weight: bold; font-size: 0.9rem; border-bottom: 2px solid #60a5fa; }
+        body { font-family: 'Malgun Gothic', sans-serif; background: #0b0e11; color: #eaecef; margin: 0; padding: 0; }
+        .whale-banner { background: #1e2329; padding: 12px; text-align: center; font-weight: bold; font-size: 0.9rem; border-bottom: 1px solid #2b3139; color: #f0b90b; }
         
-        /* [핵심] 3단 레이아웃 강제 고정 */
-        .main-container { display: flex; width: 100%; max-width: 1600px; margin: 0 auto; padding: 20px; box-sizing: border-box; }
+        /* 3단 레이아웃 고정 */
+        .main-container { display: flex; justify-content: center; max-width: 1600px; margin: 0 auto; padding: 25px; gap: 30px; }
         
         .side-ads { 
-            width: 200px; 
+            width: 220px; 
             min-height: 800px; 
-            background: #0f172a; 
-            border: 2px dashed #334155; /* 점선을 더 진하게 */
+            background: #161a1e; 
+            border: 1px solid #2b3139;
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            color: #475569; 
-            font-size: 0.8rem; 
+            color: #848e9c; 
+            font-size: 0.85rem; 
             text-align: center; 
-            border-radius: 10px; 
+            border-radius: 4px; 
             flex-shrink: 0; 
         }
 
-        .content-area { flex: 1; margin: 0 20px; min-width: 0; }
-
-        h1 { color: #38bdf8; display: flex; justify-content: space-between; align-items: center; margin-top: 0; font-size: 1.6rem; }
-        .box { background: #1e293b; padding: 18px; margin-bottom: 15px; border-radius: 10px; border-left: 6px solid #38bdf8; transition: 0.3s; }
-        .box:hover { background: #2d3748; transform: translateX(5px); }
-        .box a { color: #f1f5f9; font-weight: bold; text-decoration: none; font-size: 1.1rem; display: block; margin-bottom: 8px; line-height: 1.4; }
-        .source { color: #94a3b8; font-size: 0.8rem; background: #020617; padding: 3px 8px; border-radius: 4px; }
+        .content-area { flex: 1; max-width: 850px; min-width: 320px; }
+        h1 { color: #ffffff; font-size: 1.5rem; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
         
-        /* 화면이 너무 작아질 때만 광고 숨김 */
-        @media (max-width: 1000px) { .side-ads { display: none; } .main-container { padding: 10px; } }
+        /* 코인니스 스타일 카드 디자인 */
+        .news-card { 
+            background: #1e2329; 
+            padding: 20px; 
+            margin-bottom: 3px; 
+            border-left: 4px solid #f0b90b; 
+            transition: background 0.2s;
+        }
+        .news-card:hover { background: #2b3139; }
+        .time-tag { color: #f0b90b; font-size: 0.8rem; font-weight: bold; margin-bottom: 8px; display: block; }
+        .news-title { color: #eaecef; font-weight: bold; text-decoration: none; font-size: 1.15rem; line-height: 1.5; display: block; }
+        .news-source { color: #848e9c; font-size: 0.8rem; margin-top: 12px; display: block; }
+        .lang-tag { background: #474d57; color: #ffffff; font-size: 0.7rem; padding: 2px 5px; border-radius: 3px; margin-right: 8px; vertical-align: middle; }
+
+        @media (max-width: 1200px) { .side-ads { display: none; } }
     </style>
 </head>
 <body>
-    <div class="whale-banner">🚨 실시간 글로벌 코인 뉴스 및 자산 흐름 모니터링 중</div>
+    <div class="whale-banner">⚡ 글로벌 가상자산 실시간 속보 (KOR/ENG 통합 스트리밍)</div>
     
     <div class="main-container">
-        <div class="side-ads">GOOGLE ADS<br>LEFT SIDEBAR</div>
+        <div class="side-ads">GOOGLE ADS<br>LEFT</div>
 
         <div class="content-area">
-            <h1>🚀 실시간 코인 대시보드 <span id="clock" style="font-size: 0.8rem; color: #94a3b8;"></span></h1>
-            <div id="news-list">최신 뉴스를 정렬하여 불러오는 중...</div>
+            <h1>📰 글로벌 타임라인 <span id="update-time" style="font-size: 0.8rem; color: #848e9c;"></span></h1>
+            <div id="news-timeline">전 세계 뉴스를 동기화하는 중...</div>
         </div>
 
-        <div class="side-ads">GOOGLE ADS<br>RIGHT SIDEBAR</div>
+        <div class="side-ads">GOOGLE ADS<br>RIGHT</div>
     </div>
 
     <script>
-        async function fetchMegaNews() {
-            const list = document.getElementById('news-list');
-            const clock = document.getElementById('clock');
-            const queries = ['비트코인 속보', '리플 판결 소식', '가상자산 뉴스', '코인 시장 전망'];
-            let allItems = [];
+    async function fetchAllNews() {
+        const list = document.getElementById('news-timeline');
+        const timeSpan = document.getElementById('update-time');
+        
+        // 검색 쿼리별로 언어/지역 설정을 다르게 고정
+        const queries = [
+            {q: 'Bitcoin Breaking News', lang: 'en-US', gl: 'US', ceid: 'US:en', tag: 'EN'},
+            {q: 'Ethereum SEC Ripple', lang: 'en-US', gl: 'US', ceid: 'US:en', tag: 'EN'},
+            {q: 'Crypto Market Analysis', lang: 'en-US', gl: 'US', ceid: 'US:en', tag: 'EN'},
+            {q: '비트코인 속보', lang: 'ko', gl: 'KR', ceid: 'KR:ko', tag: 'KO'},
+            {q: '리플 호재', lang: 'ko', gl: 'KR', ceid: 'KR:ko', tag: 'KO'}
+        ];
+        
+        let allItems = [];
 
-            try {
-                for (const q of queries) {
-                    const rssUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(q)}&hl=ko&gl=KR&ceid=KR:ko`;
-                    const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
-                    const data = await res.json();
-                    if (data.status === 'ok') allItems.push(...data.items);
+        try {
+            for (const item of queries) {
+                // 핵심: hl, gl, ceid 값을 미국(US/en)으로 강제 설정하여 영문 뉴스 확보
+                const rssUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(item.q)}&hl=${item.lang}&gl=${item.gl}&ceid=${item.ceid}`;
+                const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
+                const data = await res.json();
+                
+                if (data.status === 'ok') {
+                    allItems.push(...data.items.map(n => ({...n, langTag: item.tag})));
                 }
-
-                // 중복 제거 및 시간순 정렬
-                const uniqueNews = Array.from(new Map(allItems.map(item => [item.title, item])).values())
-                    .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-
-                list.innerHTML = '';
-                uniqueNews.slice(0, 50).forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'box';
-                    div.innerHTML = `
-                        <a href="${item.link}" target="_blank">${item.title}</a>
-                        <span class="source">📅 ${new Date(item.pubDate).toLocaleString()}</span>
-                    `;
-                    list.appendChild(div);
-                });
-                clock.innerText = `마지막 갱신: ${new Date().toLocaleTimeString()}`;
-            } catch (e) {
-                list.innerHTML = '데이터 수집 중... 잠시만 기다려주세요.';
             }
+
+            // 중복 제거 및 시간순 정렬
+            const sortedNews = Array.from(new Map(allItems.map(n => [n.title, n])).values())
+                .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+
+            list.innerHTML = '';
+            sortedNews.slice(0, 80).forEach(item => {
+                const date = new Date(item.pubDate);
+                const timeStr = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+                
+                const div = document.createElement('div');
+                div.className = 'news-card';
+                div.innerHTML = `
+                    <span class="time-tag">● ${timeStr}</span>
+                    <a href="${item.link}" target="_blank" class="news-title">
+                        <span class="lang-tag">${item.langTag}</span>${item.title}
+                    </a>
+                    <span class="news-source">Source: ${item.author || 'Global News'} | ${date.toLocaleDateString()}</span>
+                `;
+                list.appendChild(div);
+            });
+            timeSpan.innerText = `Last Sync: ${new Date().toLocaleTimeString()}`;
+        } catch (e) {
+            list.innerHTML = '데이터 동기화 실패. 잠시 후 재시도합니다.';
         }
-        fetchMegaNews();
-        setInterval(fetchMegaNews, 60000);
-    </script>
+    }
+
+    fetchAllNews();
+    setInterval(fetchAllNews, 60000);
+</script>
 </body>
 </html>
