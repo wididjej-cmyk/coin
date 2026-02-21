@@ -2,119 +2,148 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>글로벌 코인 타임라인</title>
+    <title>글로벌 코인 속보 터미널</title>
     <style>
         body { font-family: 'Malgun Gothic', sans-serif; background: #0b0e11; color: #eaecef; margin: 0; padding: 0; }
-        .whale-banner { background: #1e2329; padding: 12px; text-align: center; font-weight: bold; font-size: 0.9rem; border-bottom: 1px solid #2b3139; color: #f0b90b; }
         
-        /* 3단 레이아웃 고정 */
-        .main-container { display: flex; justify-content: center; max-width: 1600px; margin: 0 auto; padding: 25px; gap: 30px; }
-        
-        .side-ads { 
-            width: 220px; 
-            min-height: 800px; 
-            background: #161a1e; 
-            border: 1px solid #2b3139;
+        /* 상단 바 디자인 보강 */
+        .top-nav { 
+            background: #1e2329; 
             display: flex; 
+            justify-content: space-between; 
             align-items: center; 
-            justify-content: center; 
-            color: #848e9c; 
-            font-size: 0.85rem; 
-            text-align: center; 
-            border-radius: 4px; 
-            flex-shrink: 0; 
+            padding: 10px 25px;
+            border-bottom: 2px solid #f0b90b;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .whale-banner { color: #f0b90b; font-weight: bold; font-size: 1rem; }
+        
+        /* 번역기 영역 강조 */
+        #google_translate_element { 
+            background: #2b3139; 
+            padding: 5px 10px; 
+            border-radius: 5px; 
+            border: 1px solid #474d57;
         }
 
+        .main-container { display: flex; justify-content: center; max-width: 1600px; margin: 0 auto; padding: 25px; gap: 30px; }
+        .side-ads { width: 220px; min-height: 800px; background: #161a1e; border: 1px dashed #2b3139; display: flex; align-items: center; justify-content: center; color: #848e9c; font-size: 0.85rem; text-align: center; border-radius: 4px; flex-shrink: 0; }
         .content-area { flex: 1; max-width: 850px; min-width: 320px; }
-        h1 { color: #ffffff; font-size: 1.5rem; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
         
-        /* 코인니스 스타일 카드 디자인 */
-        .news-card { 
-            background: #1e2329; 
-            padding: 20px; 
-            margin-bottom: 3px; 
-            border-left: 4px solid #f0b90b; 
-            transition: background 0.2s;
-        }
-        .news-card:hover { background: #2b3139; }
-        .time-tag { color: #f0b90b; font-size: 0.8rem; font-weight: bold; margin-bottom: 8px; display: block; }
-        .news-title { color: #eaecef; font-weight: bold; text-decoration: none; font-size: 1.15rem; line-height: 1.5; display: block; }
-        .news-source { color: #848e9c; font-size: 0.8rem; margin-top: 12px; display: block; }
-        .lang-tag { background: #474d57; color: #ffffff; font-size: 0.7rem; padding: 2px 5px; border-radius: 3px; margin-right: 8px; vertical-align: middle; }
+        h1 { color: #ffffff; font-size: 1.6rem; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
+        
+        /* 뉴스 카드 디자인 (이미지상의 노란 포인트 유지) */
+        .news-card { background: #1e2329; padding: 18px 20px; margin-bottom: 8px; border-left: 5px solid #f0b90b; border-radius: 4px; transition: 0.2s; }
+        .news-card:hover { background: #2b3139; transform: translateX(5px); }
+        .time-tag { color: #f0b90b; font-size: 0.95rem; font-weight: bold; margin-bottom: 12px; display: inline-block; }
+        .news-title { color: #eaecef; font-weight: bold; text-decoration: none; font-size: 1.2rem; line-height: 1.5; display: block; margin-bottom: 12px; }
+        .news-meta { display: flex; align-items: center; gap: 12px; color: #848e9c; font-size: 0.85rem; }
+        .source-tag { background: #474d57; color: #ffffff; padding: 3px 10px; border-radius: 4px; font-weight: bold; font-size: 0.8rem; text-transform: uppercase; }
+
+        .controls { margin-top: 30px; display: flex; justify-content: center; padding-bottom: 50px; }
+        .btn { padding: 15px 35px; background: #2b3139; color: #f0b90b; border: 1px solid #f0b90b; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: 0.3s; }
+        .btn:hover { background: #f0b90b; color: #0b0e11; }
+        
+        #pagination { display: none; width: 100%; justify-content: center; gap: 20px; }
 
         @media (max-width: 1200px) { .side-ads { display: none; } }
+        
+        /* 구글 번역 툴바 숨기기 최적화 */
+        .goog-te-banner-frame { display: none !important; }
+        body { top: 0 !important; }
+        .skiptranslate { display: inline-block !important; }
     </style>
 </head>
 <body>
-    <div class="whale-banner">⚡ 글로벌 가상자산 실시간 속보 (KOR/ENG 통합 스트리밍)</div>
+    <div class="top-nav">
+        <div class="whale-banner">🚀 GLOBAL CRYPTO NEWS TERMINAL</div>
+        <div id="google_translate_element"></div>
+    </div>
     
     <div class="main-container">
-        <div class="side-ads">GOOGLE ADS<br>LEFT</div>
-
+        <div class="side-ads">AD AREA</div>
         <div class="content-area">
-            <h1>📰 글로벌 타임라인 <span id="update-time" style="font-size: 0.8rem; color: #848e9c;"></span></h1>
-            <div id="news-timeline">전 세계 뉴스를 동기화하는 중...</div>
+            <h1>📰 실시간 글로벌 속보 <span id="update-time" style="font-size: 0.85rem; color: #848e9c; font-weight: normal;"></span></h1>
+            <div id="news-timeline">데이터 통신망 연결 중...</div>
+            <div class="controls">
+                <button id="load-more" class="btn">더 많은 뉴스 불러오기 (Load More)</button>
+                <div id="pagination">
+                    <button id="prev-page" class="btn">◀ PREV</button>
+                    <span id="page-indicator" style="align-self: center; color: #f0b90b; font-weight: bold; font-size: 1.1rem;">PAGE 2</span>
+                    <button id="next-page" class="btn">NEXT ▶</button>
+                </div>
+            </div>
         </div>
-
-        <div class="side-ads">GOOGLE ADS<br>RIGHT</div>
+        <div class="side-ads">AD AREA</div>
     </div>
 
-    <script>
-    async function fetchAllNews() {
-        const list = document.getElementById('news-timeline');
-        const timeSpan = document.getElementById('update-time');
-        
-        // 검색 쿼리별로 언어/지역 설정을 다르게 고정
-        const queries = [
-            {q: 'Bitcoin Breaking News', lang: 'en-US', gl: 'US', ceid: 'US:en', tag: 'EN'},
-            {q: 'Ethereum SEC Ripple', lang: 'en-US', gl: 'US', ceid: 'US:en', tag: 'EN'},
-            {q: 'Crypto Market Analysis', lang: 'en-US', gl: 'US', ceid: 'US:en', tag: 'EN'},
-            {q: '비트코인 속보', lang: 'ko', gl: 'KR', ceid: 'KR:ko', tag: 'KO'},
-            {q: '리플 호재', lang: 'ko', gl: 'KR', ceid: 'KR:ko', tag: 'KO'}
-        ];
-        
-        let allItems = [];
-
-        try {
-            for (const item of queries) {
-                // 핵심: hl, gl, ceid 값을 미국(US/en)으로 강제 설정하여 영문 뉴스 확보
-                const rssUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(item.q)}&hl=${item.lang}&gl=${item.gl}&ceid=${item.ceid}`;
-                const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
-                const data = await res.json();
-                
-                if (data.status === 'ok') {
-                    allItems.push(...data.items.map(n => ({...n, langTag: item.tag})));
-                }
-            }
-
-            // 중복 제거 및 시간순 정렬
-            const sortedNews = Array.from(new Map(allItems.map(n => [n.title, n])).values())
-                .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-
-            list.innerHTML = '';
-            sortedNews.slice(0, 80).forEach(item => {
-                const date = new Date(item.pubDate);
-                const timeStr = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
-                
-                const div = document.createElement('div');
-                div.className = 'news-card';
-                div.innerHTML = `
-                    <span class="time-tag">● ${timeStr}</span>
-                    <a href="${item.link}" target="_blank" class="news-title">
-                        <span class="lang-tag">${item.langTag}</span>${item.title}
-                    </a>
-                    <span class="news-source">Source: ${item.author || 'Global News'} | ${date.toLocaleDateString()}</span>
-                `;
-                list.appendChild(div);
-            });
-            timeSpan.innerText = `Last Sync: ${new Date().toLocaleTimeString()}`;
-        } catch (e) {
-            list.innerHTML = '데이터 동기화 실패. 잠시 후 재시도합니다.';
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en', 
+                includedLanguages: 'ko,en,zh-CN,ja,th', 
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
         }
-    }
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-    fetchAllNews();
-    setInterval(fetchAllNews, 60000);
-</script>
+    <script>
+        let lastTimestamp = null; 
+        let historyStack = [];
+        let clickCount = 0;
+        let currentPage = 1;
+
+        async function fetchNews(mode) {
+            const list = document.getElementById('news-timeline');
+            const timeSpan = document.getElementById('update-time');
+            const loadMoreBtn = document.getElementById('load-more');
+            const pagination = document.getElementById('pagination');
+            const pageIndicator = document.getElementById('page-indicator');
+            
+            let apiUrl = 'https://min-api.cryptocompare.com/data/v2/news/?lang=EN';
+            if (mode === 'more' || mode === 'next') { if (lastTimestamp) apiUrl += `&lTs=${lastTimestamp}`; }
+            else if (mode === 'prev') { if (historyStack.length > 1) { historyStack.pop(); const prevTs = historyStack[historyStack.length - 1]; apiUrl += `&lTs=${prevTs}`; } }
+
+            try {
+                const res = await fetch(apiUrl);
+                const data = await res.json();
+                if (data.Message === 'News list successfully returned') {
+                    const newsItems = data.Data;
+                    if (mode !== 'more') list.innerHTML = '';
+                    newsItems.forEach(item => {
+                        const date = new Date(item.published_on * 1000);
+                        const timeStr = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+                        const div = document.createElement('div');
+                        div.className = 'news-card';
+                        div.innerHTML = `
+                            <div><span class="time-tag">● ${timeStr}</span></div>
+                            <a href="${item.url}" target="_blank" class="news-title">${item.title}</a>
+                            <div class="news-meta">
+                                <span class="source-tag">${item.source_info.name}</span>
+                                <span>${date.toLocaleDateString()}</span>
+                            </div>
+                        `;
+                        list.appendChild(div);
+                    });
+                    if (newsItems.length > 0) {
+                        lastTimestamp = newsItems[newsItems.length - 1].published_on;
+                        if (mode !== 'prev') historyStack.push(lastTimestamp);
+                    }
+                    if (mode === 'more') clickCount++;
+                    if (clickCount >= 1) { loadMoreBtn.style.display = 'none'; pagination.style.display = 'flex'; pageIndicator.innerText = `PAGE ${currentPage + (mode === 'more' ? 1 : 0)}`; }
+                    timeSpan.innerText = `Update: ${new Date().toLocaleTimeString()}`;
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        document.getElementById('load-more').addEventListener('click', () => fetchNews('more'));
+        document.getElementById('next-page').addEventListener('click', () => { currentPage++; fetchNews('next'); window.scrollTo(0,0); });
+        document.getElementById('prev-page').addEventListener('click', () => { if(currentPage > 1) { currentPage--; fetchNews('prev'); window.scrollTo(0,0); } });
+        fetchNews('init');
+    </script>
 </body>
 </html>
