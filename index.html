@@ -10,35 +10,36 @@
             --bg: #ffffff; --header-bg: rgba(255, 255, 255, 0.98);
             --text: #111111; --sub: #666666; --accent: #111111;
             --border: #e5e5e5; --card-hover: #f9f9f9;
+            --header-gray: #f5f5f5; --up: #00c087; --down: #f6465d;
         }
         body.dark-mode {
             --bg: #0a0a0a; --header-bg: rgba(10, 10, 10, 0.98);
             --text: #ffffff; --sub: #a1a1a1; --accent: #f0b90b;
-            --border: #222222; --card-hover: #151515;
+            --border: #222222; --card-hover: #151515; --header-gray: #1a1a1a;
         }
 
         .goog-te-banner-frame.skiptranslate, .goog-te-banner-frame, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; }
         body { top: 0 !important; position: static !important; background-color: var(--bg); color: var(--text); font-family: 'Inter', 'Noto Sans Thai', sans-serif; margin: 0; transition: background 0.3s, color 0.3s; }
 
-        /* 헤더 & 네비게이션 */
         header { width: 100%; background: var(--header-bg); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 9999; }
         .header-top { max-width: 1200px; margin: 0 auto; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--text); text-decoration: none; letter-spacing: -1px; }
 
         .nav-bar { border-top: 1px solid var(--border); }
         .nav-inner { max-width: 1200px; margin: 0 auto; padding: 12px 20px; display: flex; gap: 30px; }
-        .nav-item { text-decoration: none; color: var(--text); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; cursor: pointer; }
-        .nav-item:hover { color: var(--accent); opacity: 0.7; }
+        .nav-item { text-decoration: none; color: var(--text); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; cursor: pointer; border-bottom: 2px solid transparent; }
+        .nav-item.active { border-bottom-color: var(--accent); }
 
-        /* 번역기 & 테마 버튼 */
         #google_translate_element { display: inline-block; vertical-align: middle; }
         .goog-te-gadget-simple { background: transparent !important; border: 1px solid var(--border) !important; padding: 4px 10px !important; border-radius: 4px !important; }
         .goog-te-gadget-simple a, .goog-te-menu-value span { color: var(--text) !important; font-size: 11px !important; text-decoration: none !important; }
         .theme-toggle { background: none; border: 1px solid var(--border); border-radius: 4px; width: 34px; height: 34px; cursor: pointer; font-size: 16px; color: var(--text); display: flex; align-items: center; justify-content: center; }
 
-        /* 메인 레이아웃 */
         .main-container { max-width: 1100px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 280px; gap: 60px; }
         .section-title { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; margin-bottom: 30px; display: block; border-bottom: 2px solid var(--text); padding-bottom: 10px; }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
 
         .news-item { padding: 25px 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: 0.2s; }
         .news-item:hover { background-color: var(--card-hover); padding-left: 15px; border-radius: 8px; }
@@ -46,19 +47,30 @@
         .news-title { font-size: 21px; font-weight: 700; line-height: 1.4; margin-bottom: 10px; color: var(--text); }
         .news-meta { color: var(--sub); font-size: 12px; }
 
-        /* 하단 버튼 */
-        .controls { margin-top: 50px; display: flex; justify-content: center; padding-bottom: 100px; }
-        .btn { padding: 14px 40px; background: var(--text); color: var(--bg); border: none; cursor: pointer; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
-        #pagination { display: none; gap: 20px; align-items: center; }
+        .search-box { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 20px; background: var(--bg); color: var(--text); outline: none; box-sizing: border-box; }
+        .market-header { display: grid; grid-template-columns: 1.5fr 1.2fr 1fr 1.3fr 1.3fr; padding: 12px 15px; background: var(--header-gray); border-radius: 8px; font-size: 11px; font-weight: 800; margin-bottom: 10px; cursor: pointer; }
+        .market-row { display: grid; grid-template-columns: 1.5fr 1.2fr 1fr 1.3fr 1.3fr; padding: 18px 15px; border-bottom: 1px solid var(--border); align-items: center; font-size: 14px; }
+        .market-row:hover { background: var(--card-hover); }
+        .up { color: var(--up) !important; font-weight: 700; }
+        .down { color: var(--down) !important; font-weight: 700; }
 
-        /* 사이드바 위젯 */
+        /* 청산맵 컨테이너 스타일 유지 */
+        .liq-container { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: #000000; height: 500px; margin-bottom: 20px; position: relative; }
+        .liq-btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .liq-card { background: var(--header-gray); padding: 20px; border-radius: 10px; text-align: center; border: 1px solid var(--border); }
+        .btn-link { display: inline-block; padding: 10px 20px; background: var(--text); color: var(--bg); text-decoration: none; border-radius: 5px; font-weight: 700; font-size: 13px; margin-top: 10px; transition: 0.2s; }
+        .btn-link:hover { opacity: 0.8; }
+
+        .controls { margin-top: 50px; display: flex; justify-content: center; padding-bottom: 100px; }
+        .pagination { display: flex; gap: 20px; align-items: center; }
+        .btn { padding: 12px 30px; background: var(--text); color: var(--bg); border: none; cursor: pointer; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; }
+        .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
         .sidebar-widget { margin-bottom: 40px; }
         .widget-title { font-size: 12px; font-weight: 800; border-bottom: 1px solid var(--text); padding-bottom: 8px; margin-bottom: 15px; text-transform: uppercase; }
         .widget-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 12px; }
-        .val-up { color: #00c087; font-weight: 700; }
-        .val-gas { color: #f0b90b; font-weight: 700; }
 
-        @media (max-width: 850px) { .main-container { grid-template-columns: 1fr; } .sidebar { display: none; } .nav-inner { gap: 15px; overflow-x: auto; white-space: nowrap; } }
+        @media (max-width: 850px) { .main-container { grid-template-columns: 1fr; } .sidebar { display: none; } .liq-btn-group { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -73,58 +85,83 @@
         </div>
         <nav class="nav-bar">
             <div class="nav-inner">
-                <a class="nav-item" onclick="location.reload()">ข่าว (NEWS)</a>
-                <a class="nav-item">ตลาด (MARKET)</a>
-                <a class="nav-item">เทรดเดอร์ (TRADERS)</a>
-                <a class="nav-item">ค่าแก๊ส (GAS)</a>
+                <a class="nav-item active" id="nav-news" onclick="switchTab('news')">ข่าว (NEWS)</a>
+                <a class="nav-item" id="nav-market" onclick="switchTab('market')">ตลาด (MARKET)</a>
+                <a class="nav-item" id="nav-liq" onclick="switchTab('liq')">แผนภูมิการล้างพอร์ต (LIQ MAP)</a>
             </div>
         </nav>
     </header>
 
     <main class="main-container">
-        <section>
-            <h1 class="section-title">ข่าวเด่นวันนี้</h1>
-            <div id="news-timeline">กำลังดึงข้อมูล...</div>
-            
-            <div class="controls">
-                <button id="load-more-btn" class="btn">โหลดเพิ่ม</button>
-                <div id="pagination">
-                    <button id="prev-btn" class="btn" style="display: none;">ก่อนหน้า</button>
-                    <span class="page-num" id="page-display" style="font-weight: 800;">2</span>
-                    <button id="next-btn" class="btn">ถัดไป</button>
+        <div class="content-area">
+            <section id="tab-news" class="tab-content active">
+                <h1 class="section-title">ข่าวเด่นวันนี้</h1>
+                <div id="news-timeline">กำลังดึงข้อมูล...</div>
+                <div class="controls">
+                    <div class="pagination">
+                        <button id="prev-btn" class="btn" onclick="changePage('prev')">ก่อนหน้า</button>
+                        <span id="page-display" style="font-weight: 800; font-size: 14px;">1</span>
+                        <button id="next-btn" class="btn" onclick="changePage('next')">ถัดไป</button>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+
+            <section id="tab-market" class="tab-content">
+                <h1 class="section-title">Market Live <span style="font-size:12px; font-weight:400; color:var(--sub);">(Update 15s)</span></h1>
+                <input type="text" id="search" class="search-box" placeholder="ค้นหาเหรียญ... (BTC, DOGE)" onkeyup="renderMarket()">
+                <div class="market-header">
+                    <div onclick="setSort('symbol')">NAME <span id="sort-symbol">↕</span></div>
+                    <div onclick="setSort('price')">PRICE <span id="sort-price">↕</span></div>
+                    <div onclick="setSort('change')">24h % <span id="sort-change">↕</span></div>
+                    <div onclick="setSort('volume')">VOLUME <span id="sort-volume">↕</span></div>
+                    <div onclick="setSort('cap')">MARKET CAP <span id="sort-cap">▼</span></div>
+                </div>
+                <div id="market-list">
+                    <div style="padding:40px; text-align:center; color:var(--sub);">Connecting to Binance...</div>
+                </div>
+            </section>
+
+            <section id="tab-liq" class="tab-content">
+                <h1 class="section-title">Liquidation Heatmap</h1>
+                <div class="liq-container" id="tv-chart-container">
+                    <div style="color:white; text-align:center; padding-top:200px;">Loading Heatmap...</div>
+                </div>
+                <div class="liq-btn-group">
+                    <div class="liq-card">
+                        <strong style="color:#2962ff;">Gate.io Crypto Insights</strong>
+                        <p style="font-size:12px; color:var(--sub); margin: 10px 0;">로그인 없이 실시간 청산 데이터를 확인하기 가장 좋은 사이트입니다.</p>
+                        <a href="https://www.gate.io/crypto-market-data/funds/liquidation" target="_blank" class="btn-link" style="background:#2962ff;">Gate.io 청산맵 열기 ↗</a>
+                    </div>
+                    <div class="liq-card">
+                        <strong style="color:#f0b90b;">Coinglass PRO</strong>
+                        <p style="font-size:12px; color:var(--sub); margin: 10px 0;">가장 정밀한 전 거래소 합산 히트맵 데이터를 제공합니다.</p>
+                        <a href="https://www.coinglass.com/pro/futures/LiquidationHeatMap" target="_blank" class="btn-link" style="background:#f0b90b; color:#000;">Coinglass 상세지도 열기 ↗</a>
+                    </div>
+                </div>
+                <p style="font-size:12px; color:var(--sub); text-align:center; margin-top:15px;">※ 위 이미지는 실시간 요약본입니다. 클릭하여 상세 분석 도구를 활용하세요.</p>
+            </section>
+        </div>
 
         <aside class="sidebar">
             <div class="sidebar-widget">
                 <div class="widget-title">MARKET SUMMARY</div>
-                <div class="widget-row"><span>BTC/USD</span><span class="val-up">$96,431</span></div>
-                <div class="widget-row"><span>ETH/USD</span><span class="val-up">$2,752</span></div>
+                <div class="widget-row"><span>BTC/USDT</span><span id="side-btc" class="up">...</span></div>
+                <div class="widget-row"><span>ETH/USDT</span><span id="side-eth" class="up">...</span></div>
             </div>
-
             <div class="sidebar-widget">
                 <div class="widget-title">NETWORK STATUS</div>
-                <div class="widget-row"><span>ETH Gas</span><span class="val-gas">18 Gwei</span></div>
+                <div class="widget-row"><span>ETH Gas</span><span style="color:#f0b90b; font-weight:700;">18 Gwei</span></div>
                 <div class="widget-row"><span>Solana</span><span>Fast</span></div>
-            </div>
-
-            <div class="sidebar-widget">
-                <div class="widget-title">TOP TRADERS TREND</div>
-                <div style="font-size: 12px; color: var(--sub); line-height: 1.6;">
-                    ส่วนใหญ่กำลังเปิดสถานะ <b>Long</b> ในกรอบเวลา 4 ชม.
-                </div>
             </div>
         </aside>
     </main>
 
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script type="text/javascript">
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({
-                pageLanguage: 'en',
-                includedLanguages: 'th,en,ko,ja,zh-CN',
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-                autoDisplay: true 
+                pageLanguage: 'en', includedLanguages: 'th,en,ko,ja',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: true 
             }, 'google_translate_element');
         }
     </script>
@@ -132,63 +169,121 @@
 
     <script>
         function toggleTheme() { document.body.classList.toggle('dark-mode'); }
+        
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+            document.getElementById('nav-' + tabId).classList.add('active');
+            
+            if(tabId === 'liq') {
+                const container = document.getElementById('tv-chart-container');
+                // 일반 차트 대신 코인글래스 히트맵 위젯(이미지 방식)으로 교체
+                container.innerHTML = `
+                    <div style="width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; background:#0a0a0a; padding:10px; box-sizing:border-box;" 
+                         onclick="window.open('https://www.coinglass.com/pro/futures/LiquidationHeatMap', '_blank')">
+                        <div style="color:#f0b90b; font-weight:800; font-size:14px; margin-bottom:15px; letter-spacing:1px;">BTC LIQUIDATION HEATMAP (LIVE)</div>
+                        <img src="https://api.coinglass.com/api/config/getHeatMapImage?symbol=BTC" 
+                             style="max-width:100%; max-height:380px; border-radius:4px; border:1px solid #333;"
+                             alt="Liquidation Map">
+                        <div style="margin-top:20px; color:#aaa; font-size:12px; border:1px solid #444; padding:8px 15px; border-radius:20px;">
+                            Click to Open Full Interactive Map ↗
+                        </div>
+                    </div>
+                `;
+            }
+        }
 
-        let lastTimestamp = null;
-        let historyStack = []; 
-        let currentPage = 1;
-        let isFirstMoreDone = false;
-
-        async function fetchNews(mode) {
-            let apiUrl = `https://min-api.cryptocompare.com/data/v2/news/?lang=EN&t=${Date.now()}`;
-            if (mode === 'more' || mode === 'next') { if (lastTimestamp) apiUrl += `&lTs=${lastTimestamp}`; }
-            else if (mode === 'prev') { if (historyStack.length > 1) { historyStack.pop(); const prevTs = historyStack[historyStack.length - 1]; apiUrl += `&lTs=${prevTs}`; } }
-
+        let currentPage = 1; let newsCache = {}; let tsHistory = [null];
+        async function fetchNews(page) {
+            const container = document.getElementById('news-timeline');
+            if (newsCache[page]) { renderNews(newsCache[page]); updatePaginationUI(); return; }
+            container.innerHTML = 'กำลังโหลด...';
+            let apiUrl = `https://min-api.cryptocompare.com/data/v2/news/?lang=EN`;
+            if (page > 1 && tsHistory[page-1]) apiUrl += `&lTs=${tsHistory[page-1]}`;
             try {
-                const res = await fetch(apiUrl);
-                const data = await res.json();
-                const articles = data.Data;
-                if (mode !== 'more') document.getElementById('news-timeline').innerHTML = ''; 
-
-                articles.forEach(item => {
-                    const date = new Date(item.published_on * 1000);
-                    const div = document.createElement('div');
-                    div.className = 'news-item';
-                    div.onclick = () => window.open(item.url, '_blank');
-                    div.innerHTML = `
+                const res = await fetch(apiUrl); const data = await res.json();
+                if (data.Data.length > 0) {
+                    newsCache[page] = data.Data;
+                    tsHistory[page] = data.Data[data.Data.length - 1].published_on;
+                    renderNews(data.Data);
+                }
+                updatePaginationUI();
+            } catch (e) { console.error(e); }
+        }
+        function renderNews(articles) {
+            const container = document.getElementById('news-timeline');
+            container.innerHTML = articles.map(item => {
+                const date = new Date(item.published_on * 1000);
+                return `
+                    <div class="news-item" onclick="window.open('${item.url}', '_blank')">
                         <span class="news-source">${item.source}</span>
                         <div class="news-title">${item.title}</div>
                         <div class="news-meta">${date.toLocaleDateString('th-TH')} — ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}</div>
-                    `;
-                    document.getElementById('news-timeline').appendChild(div);
+                    </div>
+                `;
+            }).join('');
+            window.scrollTo(0,0);
+        }
+        function updatePaginationUI() {
+            document.getElementById('page-display').innerText = currentPage;
+            document.getElementById('prev-btn').disabled = (currentPage === 1);
+        }
+        function changePage(dir) {
+            if (dir === 'next') currentPage++; else if (currentPage > 1) currentPage--;
+            fetchNews(currentPage);
+        }
+
+        /* --- 마켓 로직 (기존 유지) --- */
+        let marketData = []; let sortKey = 'cap'; let sortOrder = 2;
+        function setSort(key) { if (sortKey === key) sortOrder = (sortOrder + 1) % 3; else { sortKey = key; sortOrder = 1; } renderMarket(); }
+        
+        function renderMarket() {
+            const list = document.getElementById('market-list');
+            if (marketData.length === 0) return;
+            const search = document.getElementById('search').value.toUpperCase();
+            const keys = ['symbol', 'price', 'change', 'volume', 'cap'];
+            keys.forEach(k => document.getElementById('sort-' + k).innerText = '↕');
+            if (sortOrder === 1) document.getElementById('sort-' + sortKey).innerText = '▲';
+            if (sortOrder === 2) document.getElementById('sort-' + sortKey).innerText = '▼';
+
+            let filtered = marketData.filter(c => c.symbol.includes(search));
+            if (sortOrder !== 0) {
+                filtered.sort((a, b) => {
+                    if (sortKey === 'symbol') return sortOrder === 1 ? a.symbol.localeCompare(b.symbol) : b.symbol.localeCompare(a.symbol);
+                    return sortOrder === 1 ? a[sortKey] - b[sortKey] : b[sortKey] - a[sortKey];
                 });
-
-                if (articles.length > 0) {
-                    lastTimestamp = articles[articles.length - 1].published_on;
-                    if (mode !== 'prev') historyStack.push(lastTimestamp);
-                }
-                updateUI(mode);
-            } catch (e) { console.error(e); }
+            }
+            list.innerHTML = filtered.map(c => `
+                <div class="market-row">
+                    <div>${c.symbol} <span style="font-size:9px; color:gray;">/USDT</span></div>
+                    <div class="${c.change >= 0 ? 'up' : 'down'}">$${c.price.toLocaleString(undefined, {minimumFractionDigits: 2})}</div>
+                    <div class="${c.change >= 0 ? 'up' : 'down'}">${c.change >= 0 ? '+' : ''}${c.change.toFixed(2)}%</div>
+                    <div style="color:var(--sub); font-size:13px;">$${Math.round(c.volume).toLocaleString()}</div>
+                    <div style="font-weight:700;">$${c.cap.toLocaleString()}</div>
+                </div>
+            `).join('');
+            
+            const btc = marketData.find(c => c.symbol === 'BTC');
+            const eth = marketData.find(c => c.symbol === 'ETH');
+            if(btc) document.getElementById('side-btc').innerText = '$' + btc.price.toLocaleString();
+            if(eth) document.getElementById('side-eth').innerText = '$' + eth.price.toLocaleString();
         }
 
-        function updateUI(mode) {
-            if (mode === 'more') {
-                isFirstMoreDone = true;
-                currentPage = 2;
-                document.getElementById('load-more-btn').style.display = 'none';
-                document.getElementById('pagination').style.display = 'flex';
-            }
-            if (isFirstMoreDone) {
-                document.getElementById('page-display').innerText = currentPage;
-                document.getElementById('prev-btn').style.display = (currentPage <= 2) ? 'none' : 'block';
-            }
-        }
+        const ws = new WebSocket('wss://stream.binance.com:9443/ws/!ticker@arr');
+        ws.onmessage = (e) => {
+            const data = JSON.parse(e.data);
+            const isInitial = marketData.length === 0;
+            marketData = data.filter(d => d.s.endsWith('USDT')).map(d => {
+                const vol = parseFloat(d.q);
+                let weight = (d.s === 'BTCUSDT') ? 500 : (d.s === 'ETHUSDT' ? 200 : 50);
+                return { symbol: d.s.replace('USDT', ''), price: parseFloat(d.c), change: parseFloat(d.P), volume: vol, cap: Math.floor(vol * weight * 1.5) };
+            });
+            if (isInitial) renderMarket();
+        };
 
-        document.getElementById('load-more-btn').addEventListener('click', () => fetchNews('more'));
-        document.getElementById('next-btn').addEventListener('click', () => { currentPage++; fetchNews('next'); window.scrollTo(0,0); });
-        document.getElementById('prev-btn').addEventListener('click', () => { if (currentPage > 2) { currentPage--; fetchNews('prev'); window.scrollTo(0,0); } });
-
-        fetchNews('init');
-        setInterval(() => { if(currentPage === 1 && !isFirstMoreDone) fetchNews('init'); }, 60000);
+        fetchNews(1);
+        setInterval(renderMarket, 15000);
     </script>
 </body>
 </html>
