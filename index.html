@@ -1,149 +1,194 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="th">
 <head>
     <meta charset="UTF-8">
-    <title>글로벌 코인 속보 터미널</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INSIGHT TH | ข้อมูลคริปโตระดับโลก</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600;800&family=Noto+Sans+Thai:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Malgun Gothic', sans-serif; background: #0b0e11; color: #eaecef; margin: 0; padding: 0; }
-        
-        /* 상단 바 디자인 보강 */
-        .top-nav { 
-            background: #1e2329; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 10px 25px;
-            border-bottom: 2px solid #f0b90b;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+        :root {
+            --bg: #ffffff; --header-bg: rgba(255, 255, 255, 0.98);
+            --text: #111111; --sub: #666666; --accent: #111111;
+            --border: #e5e5e5; --card-hover: #f9f9f9;
         }
-        .whale-banner { color: #f0b90b; font-weight: bold; font-size: 1rem; }
-        
-        /* 번역기 영역 강조 */
-        #google_translate_element { 
-            background: #2b3139; 
-            padding: 5px 10px; 
-            border-radius: 5px; 
-            border: 1px solid #474d57;
+        body.dark-mode {
+            --bg: #0a0a0a; --header-bg: rgba(10, 10, 10, 0.98);
+            --text: #ffffff; --sub: #a1a1a1; --accent: #f0b90b;
+            --border: #222222; --card-hover: #151515;
         }
 
-        .main-container { display: flex; justify-content: center; max-width: 1600px; margin: 0 auto; padding: 25px; gap: 30px; }
-        .side-ads { width: 220px; min-height: 800px; background: #161a1e; border: 1px dashed #2b3139; display: flex; align-items: center; justify-content: center; color: #848e9c; font-size: 0.85rem; text-align: center; border-radius: 4px; flex-shrink: 0; }
-        .content-area { flex: 1; max-width: 850px; min-width: 320px; }
-        
-        h1 { color: #ffffff; font-size: 1.6rem; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
-        
-        /* 뉴스 카드 디자인 (이미지상의 노란 포인트 유지) */
-        .news-card { background: #1e2329; padding: 18px 20px; margin-bottom: 8px; border-left: 5px solid #f0b90b; border-radius: 4px; transition: 0.2s; }
-        .news-card:hover { background: #2b3139; transform: translateX(5px); }
-        .time-tag { color: #f0b90b; font-size: 0.95rem; font-weight: bold; margin-bottom: 12px; display: inline-block; }
-        .news-title { color: #eaecef; font-weight: bold; text-decoration: none; font-size: 1.2rem; line-height: 1.5; display: block; margin-bottom: 12px; }
-        .news-meta { display: flex; align-items: center; gap: 12px; color: #848e9c; font-size: 0.85rem; }
-        .source-tag { background: #474d57; color: #ffffff; padding: 3px 10px; border-radius: 4px; font-weight: bold; font-size: 0.8rem; text-transform: uppercase; }
+        .goog-te-banner-frame.skiptranslate, .goog-te-banner-frame, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; }
+        body { top: 0 !important; position: static !important; background-color: var(--bg); color: var(--text); font-family: 'Inter', 'Noto Sans Thai', sans-serif; margin: 0; transition: background 0.3s, color 0.3s; }
 
-        .controls { margin-top: 30px; display: flex; justify-content: center; padding-bottom: 50px; }
-        .btn { padding: 15px 35px; background: #2b3139; color: #f0b90b; border: 1px solid #f0b90b; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: 0.3s; }
-        .btn:hover { background: #f0b90b; color: #0b0e11; }
-        
-        #pagination { display: none; width: 100%; justify-content: center; gap: 20px; }
+        /* 헤더 & 네비게이션 */
+        header { width: 100%; background: var(--header-bg); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 9999; }
+        .header-top { max-width: 1200px; margin: 0 auto; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--text); text-decoration: none; letter-spacing: -1px; }
 
-        @media (max-width: 1200px) { .side-ads { display: none; } }
-        
-        /* 구글 번역 툴바 숨기기 최적화 */
-        .goog-te-banner-frame { display: none !important; }
-        body { top: 0 !important; }
-        .skiptranslate { display: inline-block !important; }
+        .nav-bar { border-top: 1px solid var(--border); }
+        .nav-inner { max-width: 1200px; margin: 0 auto; padding: 12px 20px; display: flex; gap: 30px; }
+        .nav-item { text-decoration: none; color: var(--text); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; cursor: pointer; }
+        .nav-item:hover { color: var(--accent); opacity: 0.7; }
+
+        /* 번역기 & 테마 버튼 */
+        #google_translate_element { display: inline-block; vertical-align: middle; }
+        .goog-te-gadget-simple { background: transparent !important; border: 1px solid var(--border) !important; padding: 4px 10px !important; border-radius: 4px !important; }
+        .goog-te-gadget-simple a, .goog-te-menu-value span { color: var(--text) !important; font-size: 11px !important; text-decoration: none !important; }
+        .theme-toggle { background: none; border: 1px solid var(--border); border-radius: 4px; width: 34px; height: 34px; cursor: pointer; font-size: 16px; color: var(--text); display: flex; align-items: center; justify-content: center; }
+
+        /* 메인 레이아웃 */
+        .main-container { max-width: 1100px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 280px; gap: 60px; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; margin-bottom: 30px; display: block; border-bottom: 2px solid var(--text); padding-bottom: 10px; }
+
+        .news-item { padding: 25px 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: 0.2s; }
+        .news-item:hover { background-color: var(--card-hover); padding-left: 15px; border-radius: 8px; }
+        .news-source { font-size: 10px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block; }
+        .news-title { font-size: 21px; font-weight: 700; line-height: 1.4; margin-bottom: 10px; color: var(--text); }
+        .news-meta { color: var(--sub); font-size: 12px; }
+
+        /* 하단 버튼 */
+        .controls { margin-top: 50px; display: flex; justify-content: center; padding-bottom: 100px; }
+        .btn { padding: 14px 40px; background: var(--text); color: var(--bg); border: none; cursor: pointer; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+        #pagination { display: none; gap: 20px; align-items: center; }
+
+        /* 사이드바 위젯 */
+        .sidebar-widget { margin-bottom: 40px; }
+        .widget-title { font-size: 12px; font-weight: 800; border-bottom: 1px solid var(--text); padding-bottom: 8px; margin-bottom: 15px; text-transform: uppercase; }
+        .widget-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 12px; }
+        .val-up { color: #00c087; font-weight: 700; }
+        .val-gas { color: #f0b90b; font-weight: 700; }
+
+        @media (max-width: 850px) { .main-container { grid-template-columns: 1fr; } .sidebar { display: none; } .nav-inner { gap: 15px; overflow-x: auto; white-space: nowrap; } }
     </style>
 </head>
 <body>
-    <div class="top-nav">
-        <div class="whale-banner">🚀 GLOBAL CRYPTO NEWS TERMINAL</div>
-        <div id="google_translate_element"></div>
-    </div>
-    
-    <div class="main-container">
-        <div class="side-ads">AD AREA</div>
-        <div class="content-area">
-            <h1>📰 실시간 글로벌 속보 <span id="update-time" style="font-size: 0.85rem; color: #848e9c; font-weight: normal;"></span></h1>
-            <div id="news-timeline">데이터 통신망 연결 중...</div>
-            <div class="controls">
-                <button id="load-more" class="btn">더 많은 뉴스 불러오기 (Load More)</button>
-                <div id="pagination">
-                    <button id="prev-page" class="btn">◀ PREV</button>
-                    <span id="page-indicator" style="align-self: center; color: #f0b90b; font-weight: bold; font-size: 1.1rem;">PAGE 2</span>
-                    <button id="next-page" class="btn">NEXT ▶</button>
-                </div>
+
+    <header>
+        <div class="header-top">
+            <a href="#" class="logo" onclick="location.reload()">INSIGHT TH</a>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <div id="google_translate_element"></div>
+                <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
             </div>
         </div>
-        <div class="side-ads">AD AREA</div>
-    </div>
+        <nav class="nav-bar">
+            <div class="nav-inner">
+                <a class="nav-item" onclick="location.reload()">ข่าว (NEWS)</a>
+                <a class="nav-item">ตลาด (MARKET)</a>
+                <a class="nav-item">เทรดเดอร์ (TRADERS)</a>
+                <a class="nav-item">ค่าแก๊ส (GAS)</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-container">
+        <section>
+            <h1 class="section-title">ข่าวเด่นวันนี้</h1>
+            <div id="news-timeline">กำลังดึงข้อมูล...</div>
+            
+            <div class="controls">
+                <button id="load-more-btn" class="btn">โหลดเพิ่ม</button>
+                <div id="pagination">
+                    <button id="prev-btn" class="btn" style="display: none;">ก่อนหน้า</button>
+                    <span class="page-num" id="page-display" style="font-weight: 800;">2</span>
+                    <button id="next-btn" class="btn">ถัดไป</button>
+                </div>
+            </div>
+        </section>
+
+        <aside class="sidebar">
+            <div class="sidebar-widget">
+                <div class="widget-title">MARKET SUMMARY</div>
+                <div class="widget-row"><span>BTC/USD</span><span class="val-up">$96,431</span></div>
+                <div class="widget-row"><span>ETH/USD</span><span class="val-up">$2,752</span></div>
+            </div>
+
+            <div class="sidebar-widget">
+                <div class="widget-title">NETWORK STATUS</div>
+                <div class="widget-row"><span>ETH Gas</span><span class="val-gas">18 Gwei</span></div>
+                <div class="widget-row"><span>Solana</span><span>Fast</span></div>
+            </div>
+
+            <div class="sidebar-widget">
+                <div class="widget-title">TOP TRADERS TREND</div>
+                <div style="font-size: 12px; color: var(--sub); line-height: 1.6;">
+                    ส่วนใหญ่กำลังเปิดสถานะ <b>Long</b> ในกรอบเวลา 4 ชม.
+                </div>
+            </div>
+        </aside>
+    </main>
 
     <script type="text/javascript">
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({
-                pageLanguage: 'en', 
-                includedLanguages: 'ko,en,zh-CN,ja,th', 
+                pageLanguage: 'en',
+                includedLanguages: 'th,en,ko,ja,zh-CN',
                 layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-                autoDisplay: false
+                autoDisplay: true 
             }, 'google_translate_element');
         }
     </script>
-    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
     <script>
-        let lastTimestamp = null; 
-        let historyStack = [];
-        let clickCount = 0;
+        function toggleTheme() { document.body.classList.toggle('dark-mode'); }
+
+        let lastTimestamp = null;
+        let historyStack = []; 
         let currentPage = 1;
+        let isFirstMoreDone = false;
 
         async function fetchNews(mode) {
-            const list = document.getElementById('news-timeline');
-            const timeSpan = document.getElementById('update-time');
-            const loadMoreBtn = document.getElementById('load-more');
-            const pagination = document.getElementById('pagination');
-            const pageIndicator = document.getElementById('page-indicator');
-            
-            let apiUrl = 'https://min-api.cryptocompare.com/data/v2/news/?lang=EN';
+            let apiUrl = `https://min-api.cryptocompare.com/data/v2/news/?lang=EN&t=${Date.now()}`;
             if (mode === 'more' || mode === 'next') { if (lastTimestamp) apiUrl += `&lTs=${lastTimestamp}`; }
             else if (mode === 'prev') { if (historyStack.length > 1) { historyStack.pop(); const prevTs = historyStack[historyStack.length - 1]; apiUrl += `&lTs=${prevTs}`; } }
 
             try {
                 const res = await fetch(apiUrl);
                 const data = await res.json();
-                if (data.Message === 'News list successfully returned') {
-                    const newsItems = data.Data;
-                    if (mode !== 'more') list.innerHTML = '';
-                    newsItems.forEach(item => {
-                        const date = new Date(item.published_on * 1000);
-                        const timeStr = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
-                        const div = document.createElement('div');
-                        div.className = 'news-card';
-                        div.innerHTML = `
-                            <div><span class="time-tag">● ${timeStr}</span></div>
-                            <a href="${item.url}" target="_blank" class="news-title">${item.title}</a>
-                            <div class="news-meta">
-                                <span class="source-tag">${item.source_info.name}</span>
-                                <span>${date.toLocaleDateString()}</span>
-                            </div>
-                        `;
-                        list.appendChild(div);
-                    });
-                    if (newsItems.length > 0) {
-                        lastTimestamp = newsItems[newsItems.length - 1].published_on;
-                        if (mode !== 'prev') historyStack.push(lastTimestamp);
-                    }
-                    if (mode === 'more') clickCount++;
-                    if (clickCount >= 1) { loadMoreBtn.style.display = 'none'; pagination.style.display = 'flex'; pageIndicator.innerText = `PAGE ${currentPage + (mode === 'more' ? 1 : 0)}`; }
-                    timeSpan.innerText = `Update: ${new Date().toLocaleTimeString()}`;
+                const articles = data.Data;
+                if (mode !== 'more') document.getElementById('news-timeline').innerHTML = ''; 
+
+                articles.forEach(item => {
+                    const date = new Date(item.published_on * 1000);
+                    const div = document.createElement('div');
+                    div.className = 'news-item';
+                    div.onclick = () => window.open(item.url, '_blank');
+                    div.innerHTML = `
+                        <span class="news-source">${item.source}</span>
+                        <div class="news-title">${item.title}</div>
+                        <div class="news-meta">${date.toLocaleDateString('th-TH')} — ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}</div>
+                    `;
+                    document.getElementById('news-timeline').appendChild(div);
+                });
+
+                if (articles.length > 0) {
+                    lastTimestamp = articles[articles.length - 1].published_on;
+                    if (mode !== 'prev') historyStack.push(lastTimestamp);
                 }
+                updateUI(mode);
             } catch (e) { console.error(e); }
         }
 
-        document.getElementById('load-more').addEventListener('click', () => fetchNews('more'));
-        document.getElementById('next-page').addEventListener('click', () => { currentPage++; fetchNews('next'); window.scrollTo(0,0); });
-        document.getElementById('prev-page').addEventListener('click', () => { if(currentPage > 1) { currentPage--; fetchNews('prev'); window.scrollTo(0,0); } });
+        function updateUI(mode) {
+            if (mode === 'more') {
+                isFirstMoreDone = true;
+                currentPage = 2;
+                document.getElementById('load-more-btn').style.display = 'none';
+                document.getElementById('pagination').style.display = 'flex';
+            }
+            if (isFirstMoreDone) {
+                document.getElementById('page-display').innerText = currentPage;
+                document.getElementById('prev-btn').style.display = (currentPage <= 2) ? 'none' : 'block';
+            }
+        }
+
+        document.getElementById('load-more-btn').addEventListener('click', () => fetchNews('more'));
+        document.getElementById('next-btn').addEventListener('click', () => { currentPage++; fetchNews('next'); window.scrollTo(0,0); });
+        document.getElementById('prev-btn').addEventListener('click', () => { if (currentPage > 2) { currentPage--; fetchNews('prev'); window.scrollTo(0,0); } });
+
         fetchNews('init');
+        setInterval(() => { if(currentPage === 1 && !isFirstMoreDone) fetchNews('init'); }, 60000);
     </script>
 </body>
 </html>
